@@ -1,7 +1,13 @@
-import React from "react";
+import React, {useState} from "react";
 import {Link} from "react-router-dom";
 
 function Nav() {
+    const [user, setUser] = useState(null);
+
+    const handleLogout = () => {
+        setUser(null);
+    }
+
     return (
         <nav style={
             {
