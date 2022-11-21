@@ -3,8 +3,10 @@ const dataBase = require('./utils/db');
 const user = require('./routes/user.route');
 const path = require('path');
 const app = express();
+const cors = require('cors');
 
 dataBase();
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use('/', (req, res, next) => {
