@@ -1,0 +1,52 @@
+button {
+    outline: none;
+    border: none;
+    background: none;
+    padding: 20px 0;
+}button:hover {
+    cursor: pointer;
+    background: blue;
+}
+nav {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: red;
+    width: 200px;
+}
+.hide__text {
+    display: none;
+}
+.nav__list , .profile__container{
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    justify-content: space-around;
+}
+
+.nav__list {
+    display: flex;
+    height: 80%;
+    overflow: hidden;
+}
+.nav__link {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-left: 20px;
+}
+.profile__container {
+    height: 20%;
+}
+.profile__item {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.nav__link:hover ,.profile__item:hover {
+    background: blue;
+}
