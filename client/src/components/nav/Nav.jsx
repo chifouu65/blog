@@ -1,8 +1,58 @@
-import {Link, redirect, useNavigation} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 //use react-icon to add icons
-import {FaHome, FaBlog, FaLink, FaArrowLeft, FaPowerOff, FaPen, FaUser, FaArrowRight} from 'react-icons/fa';
+import {FaHome, FaBlog, FaLink, FaPlus, FaMinus, FaUser, FaPowerOff} from 'react-icons/fa';
 import "./nav.css";
 import React, {useState} from "react";
+import styled from 'styled-components';
+
+const NavContainer = styled.nav`
+display: flex;
+flex-direction: column;
+height: 100vh;
+background: #f2f2f2;
+width: 60px;
+min-width: 60px;
+transition: all 0.3s ease;
+.text {
+    display: none;
+}
+`
+const LinkContainer = styled.div`
+display: flex;
+flex-direction: column;
+justify-content: center;
+display: flex;
+height: 100%;
+width: 100%;
+overflow: hidden;
+#user {
+    min-height: 25%;
+}
+`
+const LinkCard = styled(Link)`
+display: flex;
+flex-direction: row;
+width: 100%;
+height: 100%;
+align-items: center;
+justify-content: flex-start;
+gap: 20px;
+padding-left: 20px;
+&:hover {
+    background-color: #d4d4d4
+}
+`
+const Bar = styled.div`
+min-height: 1px;
+width: 90%;
+background-color: rgba(0,0,0,0.5);
+content: "";
+margin: 0 auto;
+`
+const BtnNav = styled.button`
+padding: 20px;
+font-size: 20px;
+`
 
 const Nav = () => {
     const user = JSON.parse(localStorage.getItem('user'));
@@ -13,77 +63,99 @@ const Nav = () => {
     const handleLogin = () => {
         if (user) {
             return (
-                <div className='profile__container'>
-                    <button className='nav__link'>
-                    <Link style={{display: 'flex', flexDirection:'row', gap: '20px'}} to='/profile'><FaUser/><span className='text'>{user.email}</span></Link></button>
-                    <button className='nav__link'>
-                        <FaPen/><span className='text'>Post</span></button>
-                    <button className='nav__link' onClick={handleLogout}>
-                        <FaPowerOff onClick={handleLogout}/><span className='text'>Déconnexion</span></button>
-                </div>
+                 <>
+                 <Bar/>
+                 <LinkCard id='user' to={"/profile"}>
+                    <FaUser/>
+                    {!click ? <span>Profile</span> : ""}
+                </LinkCard>
+                <Bar/>
+                 <LinkCard id='user' onClick={handleLogout}>
+                    <FaPowerOff/>
+                    {!click ? <span>Déconnexion</span> : ""}
+                 </LinkCard>
+                 </>
             )
         } else {
             return (
                 <>
-                    <button className='nav__link'>
-                    <Link to="/user">
-                        <FaUser/>
-                        <span className='text'>Register <br/>
-                        Login</span>
-                    </Link>
-                    </button>
+                <Bar/>
+                 <LinkCard id='user' to={'/user'}>
+                    <FaPowerOff/>
+                    {!click ? <span>Login /<br/>Register</span> : ""}
+                 </LinkCard>
                 </>
             )
         }
     }
-
     const [click, setClick] = useState(false);
     const handleClick = () => setClick(!click);
-    setTimeout(() => {
-        if (click === false) {
-            document.querySelector('.nav').style.width = '60px';
-            document.querySelectorAll(".text").forEach((text) => {
-                text.style.display = 'none';
-            })
-        } else {
-            document.querySelector('.nav').style.width = '200px';
-            document.querySelectorAll(".text").forEach((text) => {
-                text.style.display = 'block';
-            })
-        }
-    }, 100);
-
+    console.log(click)
     return (
-        <nav className="nav">
-            <ul className="nav__list">
-                <button className='event_btn' onClick={handleClick}>
-                    {click ? <FaArrowLeft/> : <FaArrowRight/>}
-                </button>
-                <Link to="/" className="nav__link">
+        <>
+        {
+            click ? 
+            <NavContainer>
+            <LinkContainer>
+                <BtnNav onClick={handleClick}>
+                    {click ? <FaPlus/> : <FaMinus/>}
+                </BtnNav>
+                <Bar/>
+                <LinkCard to="/">
                     <FaHome className="nav__icon"/>
                     <span className='text'>Home</span>
-                </Link>
-                <Link to="/blog" className="nav__link">
+                </LinkCard>
+                <LinkCard to="/blog">
                     <FaBlog className="nav__icon"/>
                     <span className='text'>Blog</span>
-                </Link>
-                <Link to={"/"} className="nav__link">
+                </LinkCard>
+                <LinkCard to={"/"}>
                     <FaLink className="nav__icon"/>
                     <span className='text'>About</span>
-                </Link>
-                <Link to={"/"} className="nav__link">
+                </LinkCard>
+                <LinkCard to={"/"}>
                     <FaLink className="nav__icon"/>
                     <span className='text'>Project</span>
-                </Link>
-                <Link to={"/"} className="nav__link">
+                </LinkCard>
+                <LinkCard to={"/"}>
                     <FaLink className="nav__icon"/>
                     <span className='text'>Contact</span>
-                </Link>
-            </ul>
-            <div className="nav__list">
+                </LinkCard>
                 {handleLogin()}
-            </div>
-        </nav>
+            </LinkContainer>
+        </NavContainer>
+        :
+        <NavContainer style={{width: "200px", minWidth:'200px'}}>
+            <LinkContainer>
+                <BtnNav onClick={handleClick}>
+                    {click ? <FaPlus/> : <FaMinus/>}
+                </BtnNav>
+                <Bar/>
+                <LinkCard to="/">
+                    <FaHome className="nav__icon"/>
+                    <span>Home</span>
+                </LinkCard>
+                <LinkCard to="/blog">
+                    <FaBlog className="nav__icon"/>
+                    <span>Blog</span>
+                </LinkCard>
+                <LinkCard to={"/"}>
+                    <FaLink className="nav__icon"/>
+                    <span>About</span>
+                </LinkCard>
+                <LinkCard to={"/"}>
+                    <FaLink className="nav__icon"/>
+                    <span >Project</span>
+                </LinkCard>
+                <LinkCard to={"/"}>
+                    <FaLink className="nav__icon"/>
+                    <span >Contact</span>
+                </LinkCard>
+                {handleLogin()}
+            </LinkContainer>
+        </NavContainer>
+        }
+        </>
     );
 }
 
