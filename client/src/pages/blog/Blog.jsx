@@ -1,30 +1,32 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import {useParams} from "react-router-dom";
 
-const Blog = (props) => {
-    const [blog, setBlog] = useState({});
+const Blog = () => {
+    const id = useParams();
+    const [blog, setBlog] = useState(null);
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/posts/${props.match.params.id}`)
+        axios.get(`http://localhost:5000/posts/${id.id}`)
             .then(res => {
                 setBlog(res.data);
             })
             .catch(err => {
                 console.log(err);
             })
-    }, [props.match.params.id])
+    }, [id])
+    const updateAt = new Date(blog?.updatedAt).toDateString();
     return (
         <>
-            <h1>Blog</h1>
-            <div style={{background: "red", width: "fit-content", height: "fit-content"}}>
-                <img src={blog.photo} alt={blog.photo} />
-                <h2>{blog.title}</h2>
-                <p>{blog.desc}</p>
-                <h3>{blog.username}</h3>
-                <h4>{blog.timestamps}</h4>
-            </div>
-            <Link to="/blog">Back to Blogs</Link>
+            {blog ? (
+                <div style={{width: "100%", height: "fit-content"}}>
+                    <h2>Title: {blog.title}</h2>
+                    <p>Desc: {blog.desc}</p>
+                    <h3> creator: {blog.username} / <span>{updateAt}</span></h3>
+                </div>
+            ) : (
+                <h1>Search...</h1>
+            )}
         </>
     );
 

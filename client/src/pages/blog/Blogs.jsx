@@ -1,6 +1,7 @@
 import axios from "axios";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import React, {useState, useEffect} from "react";
+
 const Blogs = () => {
     const [blogs, setBlogs] = useState([]);
 
@@ -17,9 +18,8 @@ const Blogs = () => {
         <>
             <h1>Blogs</h1>
             {blogs.map(blog => (
-                <div key={blog._id} style={{background: "red", width: "fit-content", height: "fit-content"}}>
+                <div key={blog._id} style={{background: "green", width: "fit-content", height: "fit-content"}}>
                     <Link to={`/blog/${blog._id}`}>
-                        <img src={blog.photo} alt={blog.photo} />
                         <h2>{blog.title}</h2>
                         <p>{blog.desc}</p>
                         <h3>{blog.username}</h3>

@@ -20,7 +20,6 @@ const Nav = () => {
                 </>
             )
         }
-        window.location.reload();
     }
     const handleLogout = () => {
         localStorage.removeItem('user');
@@ -42,11 +41,15 @@ const Nav = () => {
                 </Link>
                 <Link to={"/"} className="nav__link">
                     <FaLink className="nav__icon"/>
-                    <span className='text'>Link</span>
+                    <span className='text'>About</span>
                 </Link>
                 <Link to={"/"} className="nav__link">
                     <FaLink className="nav__icon"/>
-                    <span className='text'>Link</span>
+                    <span className='text'>Project</span>
+                </Link>
+                <Link to={"/"} className="nav__link">
+                    <FaLink className="nav__icon"/>
+                    <span className='text'>Contact</span>
                 </Link>
             </ul>
 
@@ -56,14 +59,7 @@ const Nav = () => {
                         {handleLogin()}
                     </span>
                 </li>
-                { user ?
-                    <li className='profile__item'>
-                        <button onClick={handleLogout} className='text'>
-                            Logout
-                        </button>
-                    </li>
-                    : null
-                }
+
             </div>
 
         </nav>
