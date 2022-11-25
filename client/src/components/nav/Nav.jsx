@@ -6,13 +6,14 @@ import React, {useState} from "react";
 import styled from 'styled-components';
 
 const NavContainer = styled.nav`
+position: fixed;
 display: flex;
 flex-direction: column;
 height: 100vh;
 background: #f2f2f2;
 width: 60px;
 min-width: 60px;
-transition: all 0.3s ease;
+transition: width 0.3s ease;
 .text {
     display: none;
 }
@@ -88,7 +89,7 @@ const Nav = () => {
             )
         }
     }
-    const [click, setClick] = useState(false);
+    const [click, setClick] = useState(true);
     const handleClick = () => setClick(!click);
     console.log(click)
     return (
