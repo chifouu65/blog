@@ -1,17 +1,25 @@
 import {Link} from 'react-router-dom';
 //use react-icon to add icons
-import {FaHome, FaBlog, FaLink, FaArrowLeft} from 'react-icons/fa';
+import {FaHome, FaBlog, FaLink, FaArrowLeft, FaPowerOff, FaPen, FaUser, FaArrowRight} from 'react-icons/fa';
 import "./nav.css";
+import React, {useState} from "react";
 
 const Nav = () => {
     const user = JSON.parse(localStorage.getItem('user'));
-
+    const handleLogout = () => {
+        localStorage.removeItem('user');
+    }
     const handleLogin = () => {
         if (user) {
             return (
-                <>
-                    <Link to="/profile">{user ? user.email : "Pas connecté"}</Link>
-                </>
+                <div className='profile__container'>
+                    <button className='nav__link'><Link className='nav__link' to='/profile'>
+                        <FaUser/><span className='text'>{user.email}</span></Link></button>
+                    <button className='nav__link'>
+                        <FaPen/><span className='text'>Post</span></button>
+                    <button className='nav__link' onClick={handleLogout}><
+                        FaPowerOff/><span className='text'>Déconnexion</span></button>
+                </div>
             )
         } else {
             return (
@@ -21,15 +29,29 @@ const Nav = () => {
             )
         }
     }
-    const handleLogout = () => {
-        localStorage.removeItem('user');
-        window.location.reload();
-    }
+
+    const [click, setClick] = useState(true);
+    const handleClick = () => setClick(!click);
+
+    setTimeout(() => {
+        if (click === false) {
+            document.querySelector('.nav').style.width = '60px';
+            document.querySelectorAll(".text").forEach((text) => {
+                text.style.display = 'none';
+            })
+        } else {
+            document.querySelector('.nav').style.width = '200px';
+            document.querySelectorAll(".text").forEach((text) => {
+                text.style.display = 'block';
+            })
+        }
+    }, 100);
+
     return (
         <nav className="nav">
             <ul className="nav__list">
-                <button>
-                    <FaArrowLeft/>
+                <button onClick={handleClick}>
+                    {click ? <FaArrowLeft/> : <FaArrowRight/>}
                 </button>
                 <Link to="/" className="nav__link">
                     <FaHome className="nav__icon"/>
@@ -52,16 +74,9 @@ const Nav = () => {
                     <span className='text'>Contact</span>
                 </Link>
             </ul>
-
-            <div className="profile__container">
-                <li className='profile__item'>
-                    <span className='text'>
-                        {handleLogin()}
-                    </span>
-                </li>
-
+            <div className="nav__list">
+                {handleLogin()}
             </div>
-
         </nav>
     );
 }
