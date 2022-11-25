@@ -1,4 +1,4 @@
-import {Link} from 'react-router-dom';
+import {Link, redirect, useNavigation} from 'react-router-dom';
 //use react-icon to add icons
 import {FaHome, FaBlog, FaLink, FaArrowLeft, FaPowerOff, FaPen, FaUser, FaArrowRight} from 'react-icons/fa';
 import "./nav.css";
@@ -8,31 +8,37 @@ const Nav = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     const handleLogout = () => {
         localStorage.removeItem('user');
+        window.location.reload()
     }
     const handleLogin = () => {
         if (user) {
             return (
                 <div className='profile__container'>
-                    <button className='nav__link'><Link className='nav__link' to='/profile'>
-                        <FaUser/><span className='text'>{user.email}</span></Link></button>
+                    <button className='nav__link'>
+                    <Link style={{display: 'flex', flexDirection:'row', gap: '20px'}} to='/profile'><FaUser/><span className='text'>{user.email}</span></Link></button>
                     <button className='nav__link'>
                         <FaPen/><span className='text'>Post</span></button>
-                    <button className='nav__link' onClick={handleLogout}><
-                        FaPowerOff/><span className='text'>Déconnexion</span></button>
+                    <button className='nav__link' onClick={handleLogout}>
+                        <FaPowerOff onClick={handleLogout}/><span className='text'>Déconnexion</span></button>
                 </div>
             )
         } else {
             return (
                 <>
-                    <Link to="/user">Register/Login</Link>
+                    <button className='nav__link'>
+                    <Link to="/user">
+                        <FaUser/>
+                        <span className='text'>Register <br/>
+                        Login</span>
+                    </Link>
+                    </button>
                 </>
             )
         }
     }
 
-    const [click, setClick] = useState(true);
+    const [click, setClick] = useState(false);
     const handleClick = () => setClick(!click);
-
     setTimeout(() => {
         if (click === false) {
             document.querySelector('.nav').style.width = '60px';
@@ -50,7 +56,7 @@ const Nav = () => {
     return (
         <nav className="nav">
             <ul className="nav__list">
-                <button onClick={handleClick}>
+                <button className='event_btn' onClick={handleClick}>
                     {click ? <FaArrowLeft/> : <FaArrowRight/>}
                 </button>
                 <Link to="/" className="nav__link">
